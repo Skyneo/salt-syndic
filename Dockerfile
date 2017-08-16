@@ -11,7 +11,7 @@ RUN yum update -y
 RUN yum -y install https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm && \
  yum install -y salt-master && \
  yum install -y salt-syndic && \
- sed -i -e "/hash_type:/c\hash_type: sha256" /etc/salt/master \
+ sed -i -e "/hash_type:/c\hash_type: sha256" /etc/salt/master && \
  yum clean all
 
 RUN yum install -y salt-minion
