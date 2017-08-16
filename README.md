@@ -1,20 +1,42 @@
-========
-SaltStack Syndic container
+SaltMaster with Syndic
 ========
 
-OS platforms
+Container with salt master running inside with syndic and minion
+
+
+Based on
 ======================
 CentOS 7
 
-``Starting container``
-------------------
+How to use it
+======================
 
-docker run -d --restart=unless-stopped -e SALT_SYNDIC_ID='SlaveMaster' -e SALT_ENV='base' -e SALT_MASTER_PUBLISH='4505' -e SALT_MASTER_PORT='4506' -e SALT_MOM_IP='megamaster.host.local' -p 4506:4506 -p 4505:4505 -v /opt/salt/base:/opt/salt/base--name salt-common smonko/syndic
+``Docker compose``
+-----------------
 
-``Arguments``
-------------------
-SALT_MASTER_PUBLISH - publish port for salt master
-SALT_MASTER_PORT - port for minion auth and respond
-SALT_SYNDIC_ID - id which will show syndic on master of masters server
-SALT_MOM_IP - IP or hostname of master of masters
-SALT_ENV - enviromet to be created inside container
+Modify docker-compose.yml
+Run container with docker-compose up -d
+
+``Docker run``
+-----------------
+
+Start container with:
+
+
+docker run -d --restart=unless-stopped \
+-e SALT_SYNDIC_ID='SaltMaster' \
+-e SALT_ENV='base' \
+-e SALT_MASTER_PUBLISH='4505' \
+-e SALT_MASTER_PORT='4506' \
+-e SALT_MOM_IP='salt.stack.local' \
+-p 4506:4506 -p 4505:4505 -p 8005:8005 \
+-v /opt/salt/base-etc/certs:/etc/pki/tls/certs:ro \
+-v /opt/salt/base-etc/pki:/etc/salt/pki:ro \
+-v /opt/salt/base-etc/master.d:/etc/salt/master.d \
+-v /opt/salt/base:/opt/salt/base \
+--name saltmaster smonko/salt-syndic-api
+
+
+Maintainer
+======================
+Stefan Monko, monkostefan@gmail.com
